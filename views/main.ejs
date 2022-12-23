@@ -8,5 +8,10 @@
 </head>
 <body>
     <p>choose your room</p>
+    <p>
+        <%for (let i = 0; i<data.length; i++){%>
+            <div id="room-info"><%=data[i].id%>.<%=data[i].name%></div>
+        <%}%>
+    </p>
 </body>
 </html>
