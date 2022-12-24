@@ -10,7 +10,10 @@
     <p>choose your room</p>
     <p>
         <%for (let i = 0; i<data.length; i++){%>
-            <div id="room-info"><%=data[i].id%>.<%=data[i].name%></div>
+            <form action="/chat/<%=data[i].id%>" method="get">
+                <div id="room<%=data[i].id%>" class="room-info"><%=data[i].id%>.<%=data[i].name%></div>
+                <input type="submit" value="enter">
+            </form>
         <%}%>
     </p>
 </body>
