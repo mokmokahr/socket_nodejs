@@ -7,10 +7,38 @@
     <title>chat</title>
 </head>
 <body>
-    <div>received comment</div>
+    <div>comment</div>
+    <div id="comments">
+        <%for(let i = 0; i<messages.length; i++){%>
+            <div><%=messages[i].message%></div>
+        <%}%>
+    </div>
     <form action="/chat/<%=roomId%>/sendMsg" method="post">
-        <input type="text" name="userMsg">
-        <input type="submit" value="send">
+        <input type="text" name="userMsg" id="userMsg">
+        <input type="submit" value="send" id="send">
     </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://localhost:8080');
+        const form = document.querySelector('form');
+        const route = form.getAttribute('action');
+        let msg = "Im cute null";
+
+        form.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            new FormData(form);
+        })
+
+        form.addEventListener('formdata',(e)=>{
+            let data = e.formData;
+            console.log(data);
+            for (const value of data.values()) {
+                console.log(value);
+            }
+            const request = new XMLHttpRequest();
+            request.open("POST", route);
+            request.send(data);
+        });
+    </script>
 </body>
 </html>

@@ -1,12 +1,19 @@
 const express = require('express');
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io')(server);
+const userHandler = require("./controllers/userHandler");
+const onConnection = (socket) => {userHandler(io, socket);}
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
-app.listen(3000,()=>{
-    console.log("server is running on the 3000 port...");
+server.listen(process.env.PORT || 8080,()=>{
+    console.log(`server is running on the ${process.env.PORT|| 8080} port...`);
 });
+
+io.on("connection", onConnection);
 
 const home = require('./routes/index.js');
 const login = require('./routes/login.js');
