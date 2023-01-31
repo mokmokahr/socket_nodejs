@@ -8,19 +8,26 @@ router.use(express.urlencoded({extended:false}));
 router.use(express.json());
 router.use(cookieParser());
 
+let roomId,userId;
 
 router.get('/:id',(req,res)=>{
-    const roomId = req.params.id;
-    con.query("SELECT * FROM message WHERE roomid = ?",[roomId],(error,rows,results)=>{
+    roomId = req.params.id;
+    userId = req.cookies.userId;
+    res.render("chat.ejs");
+    /**con.query("SELECT * FROM message WHERE roomid = ?",[roomId],(error,rows,results)=>{
         if (error) throw error;
-        res.render('chat.ejs',
-        {
-            roomId: roomId,
-            messages : rows
-        });
+
     });
+    */
 });
 
+router.get('/getInfo',(req,res)=>{
+    res.end({
+        roomid:roomId,
+        userid:userId,
+    })
+});
+/**
 router.post('/:id/sendMsg',(req,res)=>{
     const msg = req.body.userMsg;
     const roomId = req.params.id;
@@ -32,5 +39,6 @@ router.post('/:id/sendMsg',(req,res)=>{
         }
     });
 });
+*/
 
 module.exports = router;
